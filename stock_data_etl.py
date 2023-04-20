@@ -17,19 +17,19 @@ company_name = "msft"
 
 def stock_data_etl():
     @task()
-    def extract():
+    def extract() -> str:
 
-        start_date = "2022-04-20"
-        end_date = "2022-04-21"
+        start_date = "2022-04-17"
+        end_date = "2022-04-18"
 
         data = get_stock_data(company_name, start_date, end_date)
 
         logging.info(f"Extracted stock data for company, {company_name} for period [{start_date}, {end_date}]...")
 
-        return data
+        return data.to_json()
 
     @task()
-    def transform(stock_data: pd.DataFrame) -> pd.DataFrame:
+    def transform(stock_data: str) -> str:
 
         transformed = stock_data
 
@@ -38,7 +38,7 @@ def stock_data_etl():
         return transformed
 
     @task()
-    def load(transformed_stock_data: pd.DataFrame) -> None:
+    def load(transformed_stock_data: str) -> None:
         # Construct a BigQuery client object.
         client = bigquery.Client()
 

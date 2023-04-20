@@ -20,7 +20,3 @@ def get_stock_data(company: str, start_date: str, end_date: str) -> pd.DataFrame
     
     return data
 
-stock_data = get_stock_data("msft", start_date, end_date)
-
-print(type(stock_data))
-
